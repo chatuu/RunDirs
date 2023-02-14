@@ -2,37 +2,7 @@
 
 import sys
 import os
-
-class fclInfo:
-    """This class is made to store run number and fcl file name
-    """
-    def __init__(self, runNo, fclName):
-        """Initialize input variables
-
-        Args:
-            runNo (string): run number
-            fclName (string): fcl name
-        """
-        self.runNo   = runNo
-        self.fclName = fclName
-    
-    def GetRunNo(self):
-        """Get Run Number
-
-        Returns:
-            string: run number
-        """
-        return self.runNo
-
-    def GetFCL(self):
-        """Get FCL Name
-
-        Returns:
-            string: fcl name
-        """
-        return self.fclName
-
-
+import shutil
 
 def main():
     """This is the main function
@@ -46,7 +16,6 @@ def main():
         for line in lines:
             runNo = line[72:77]
             runs.append(int(runNo))
-            fclinfo.append(fclInfo(int(runNo), line))
 
         finalRuns = set(runs)
 
@@ -62,16 +31,21 @@ def main():
             else:
                 print ("Successfully created the directory %s" % path)
 
+    with open(sys.argv[1],"r") as file:
+        fclinfo = []
+        lines = file.readlines()
+        for line in lines:
+            runNo = line[72:77]
+            src_path  = f"./largefcls/{line}"
+            dest_path = f"./outdir/000{runNo[0:3]}/{runNo}/"
 
-
-
-    
-
-
-
-
-
-#neardet_genie_numucccoh_fullsim_prod5p1_nonswap_singles_numucccoh_none_r13195_s09_c0_v05.87_1_20230208_231715.fcl
+            try:    
+                shutil.copy(src_path.strip(), dest_path.strip())
+            except OSError:
+                print(f"Unable to copy {src_path} to {dest_path}")
+            else:
+                print(f"Suceessfully copied {src_path} to {dest_path}")
+            file.close() 
 
 if __name__=='__main__':
     main()
