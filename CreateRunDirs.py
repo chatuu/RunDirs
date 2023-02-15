@@ -14,7 +14,7 @@ def main():
         fclinfo = []
         lines = f.readlines()
         for line in lines:
-            runNo = line[72:77]
+            runNo = line[74:79]
             runs.append(int(runNo))
 
         finalRuns = set(runs)
@@ -35,7 +35,7 @@ def main():
         fclinfo = []
         lines = file.readlines()
         for line in lines:
-            runNo = line[72:77]
+            runNo = line[74:79]
             src_path  = f"./largefcls/{line}"
             dest_path = f"./outdir/000{runNo[0:3]}/{runNo}/"
 
